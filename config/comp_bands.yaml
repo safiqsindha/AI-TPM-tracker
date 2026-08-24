@@ -1,0 +1,61 @@
+# Manually maintained reference bands for estimating TOTAL comp (base + bonus +
+# equity, annualized) when a posting doesn't disclose it, keyed by company
+# tier (comp_band, set per-company in companies.yaml) and inferred level.
+#
+# These are NOT live-scraped from levels.fyi -- this project runs in a
+# sandboxed environment without general internet access, and levels.fyi has
+# no public API / disallows scraping in its terms of service. Instead this
+# is a static, editable approximation of Seattle/remote-US market data as of
+# the 2025-2026 vintage. Re-check against levels.fyi / Blind by hand
+# periodically and update the numbers here -- comp.py will use whatever is
+# in this file.
+#
+# Units: USD/year, annualized total comp.
+#
+# base_to_total_multiplier: when a posting DOES disclose a number (usually
+# base salary only, per state pay-transparency laws), multiply it by this to
+# approximate total comp (base + bonus + equity) for scoring purposes.
+# Equity-heavy companies get a higher multiplier.
+
+bands:
+  frontier_ai_lab:      # Anthropic, OpenAI, Google DeepMind, NVIDIA
+    base_to_total_multiplier: 1.8
+    senior:    {low: 350000, high: 500000}
+    staff:     {low: 450000, high: 650000}
+    principal: {low: 600000, high: 900000}
+    manager:   {low: 400000, high: 600000}
+
+  tier2_ai_infra:        # Meta infra/MTIA, Apple silicon, Google platforms/TPU
+    base_to_total_multiplier: 1.6
+    senior:    {low: 280000, high: 380000}
+    staff:     {low: 380000, high: 500000}
+    principal: {low: 480000, high: 650000}
+    manager:   {low: 320000, high: 450000}
+
+  neocloud:              # CoreWeave, Lambda, Nebius, Crusoe, Cerebras, Groq
+    base_to_total_multiplier: 1.5
+    senior:    {low: 220000, high: 320000}
+    staff:     {low: 300000, high: 420000}
+    principal: {low: 380000, high: 520000}
+    manager:   {low: 250000, high: 350000}
+
+  chip_and_ai_app:       # xAI, Broadcom, Marvell, Astera Labs, Anysphere, Sierra, Oracle OCI
+    base_to_total_multiplier: 1.4
+    senior:    {low: 200000, high: 300000}
+    staff:     {low: 270000, high: 380000}
+    principal: {low: 340000, high: 470000}
+    manager:   {low: 220000, high: 320000}
+
+  emerging_ai_infra:     # SambaNova, Together AI, Fireworks, Baseten, Voltage Park, Nscale, Fluidstack, Modal
+    base_to_total_multiplier: 1.3
+    senior:    {low: 180000, high: 260000}
+    staff:     {low: 240000, high: 330000}
+    principal: {low: 300000, high: 400000}
+    manager:   {low: 200000, high: 280000}
+
+  default:
+    base_to_total_multiplier: 1.3
+    senior:    {low: 180000, high: 250000}
+    staff:     {low: 230000, high: 300000}
+    principal: {low: 280000, high: 360000}
+    manager:   {low: 200000, high: 270000}

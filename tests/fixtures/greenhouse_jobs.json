@@ -1,0 +1,24 @@
+{
+  "jobs": [
+    {
+      "id": 1234,
+      "title": "Senior Technical Program Manager, GPU Fleet",
+      "absolute_url": "https://boards.greenhouse.io/anthropic/jobs/1234",
+      "location": {"name": "Seattle, WA"},
+      "offices": [{"name": "Seattle"}],
+      "departments": [{"name": "Compute Infrastructure"}],
+      "updated_at": "2026-08-01T00:00:00-07:00",
+      "content": "<p>Own GPU fleet operations and data center capacity planning across our compute infrastructure. Compensation range: $220,000 - $260,000. Requires 8+ years experience.</p>"
+    },
+    {
+      "id": 1235,
+      "title": "Software Engineer, Infra",
+      "absolute_url": "https://boards.greenhouse.io/anthropic/jobs/1235",
+      "location": {"name": "Remote - US"},
+      "offices": [],
+      "departments": [{"name": "Engineering"}],
+      "updated_at": "2026-08-02T00:00:00-07:00",
+      "content": "<p>We are looking for a Software Engineer to build our infra.</p>"
+    }
+  ]
+}

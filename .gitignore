@@ -1,0 +1,19 @@
+__pycache__/
+*.pyc
+.venv/
+venv/
+*.egg-info/
+build/
+dist/
+.pytest_cache/
+
+# data/jobs.db is intentionally TRACKED, not ignored: GitHub Actions runners
+# are ephemeral, so the DB is committed after each scheduled run to persist
+# new/closed/comp-changed diffing across runs. Only journal/lock files are
+# transient scratch and get ignored.
+data/*.db-journal
+data/*.db-wal
+data/*.db-shm
+
+# Keep reports/ tracked (that's the deliverable), but ignore local scratch reports
+reports/*.tmp.md
