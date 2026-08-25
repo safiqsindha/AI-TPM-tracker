@@ -1,0 +1,77 @@
+# Hard filters applied before scoring. A job failing any of these is dropped
+# and counted (not detailed) in the report's "Dropped" section, grouped by
+# which filter killed it -- edit these thresholds if a filter looks too
+# aggressive.
+
+location:
+  allowed_metro_keywords: ["seattle", "redmond", "bellevue", "kirkland", "wa"]
+  remote_us_allowed: true
+  # If a posting's location text matches none of the allowed metro keywords
+  # and isn't flagged remote, but also doesn't clearly say non-US-remote,
+  # we still drop it -- ambiguous location is not a pass.
+
+compensation:
+  ai_base_min: 175000
+  hardware_base_min: 200000
+  # comp is compared against posted BASE if disclosed; if not disclosed the
+  # job is never dropped for comp, it's flagged COMP_UNKNOWN instead (comp.py
+  # estimates total comp for scoring purposes).
+
+level:
+  max_years_required: 12
+  director_plus_titles: ["director", "vice president", " vp ", "svp", "evp", "chief", "head of"]
+  junior_titles: ["junior", "associate", "entry level", "entry-level", "new grad", "intern", "internship", "co-op"]
+  senior_plus_titles: ["senior", "sr.", "sr ", "staff", "principal", "lead", "manager", "iii", "ii"]
+  # Director+ is dropped UNLESS estimated total comp clears this bar --
+  # "comp is exceptional" per the brief.
+  director_exceptional_comp_total: 500000
+
+function:
+  allowed_keywords:
+    - "technical program manager"
+    - "program manager"
+    - "technical program management"
+    - "program management"
+    - "product operations"
+    - "technical product manager"
+    - "technical product management"
+    - "product management"
+    - " tpm "
+    - "tpm,"
+    - "tpm -"
+  drop_keywords:
+    - "software engineer"
+    - "swe"
+    - "software development engineer"
+    - "research scientist"
+    - "research engineer"
+    - "machine learning engineer"
+    - "ml engineer"
+    - "applied scientist"
+    - "account executive"
+    - "sales"
+    - "marketing"
+    - "recruiter"
+    - "recruiting"
+
+companies:
+  amazon_ai_pivot_keywords:
+    - "foundation model"
+    - "large language model"
+    - "generative ai"
+    - "ai training"
+    - "model training"
+    - "inference platform"
+    - "frontier model"
+    - "bedrock"
+    - "trainium"
+    - "inferentia"
+  # A hardware-qualification role at Annapurna Labs does NOT count as a pivot
+  # even if it mentions "AI chips" -- the keywords above look for
+  # training/inference platform work, not silicon-qual-for-AI-chips work.
+  amazon_hardware_qual_giveaway_keywords:
+    - "silicon validation"
+    - "hardware qualification"
+    - "bring-up"
+    - "board bring up"
+    - "asic qualification"

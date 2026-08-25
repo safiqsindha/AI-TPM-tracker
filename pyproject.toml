@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "tpm-tracker"
+version = "0.1.0"
+description = "AI/Hardware TPM role tracker: scrapes career pages, filters, scores, and reports a ranked shortlist."
+requires-python = ">=3.11"
+dependencies = [
+    "requests>=2.31",
+    "PyYAML>=6.0",
+    "beautifulsoup4>=4.12",
+    "playwright>=1.44",
+    "python-dateutil>=2.9",
+]
+
+[project.scripts]
+tpm-tracker = "jobtracker.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]

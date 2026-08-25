@@ -1,0 +1,319 @@
+# Per-company scrape configuration.
+#
+# Add or drop a company by editing this file only -- no code changes needed.
+# Set `active: false` to temporarily pause a company without deleting its config.
+#
+# `verify: true` means the endpoint/selector values below are a best-guess
+# starting point (this project was built without live network access to the
+# actual career pages) and MUST be checked against the real site before you
+# trust the results. See README.md "Verifying a company config" for how.
+#
+# tier_points / comp_band come from the scoring rubric in config/scoring.yaml
+# and config/comp_bands.yaml. Tesla is intentionally absent -- excluded
+# entirely per the rubric, do not add it back without removing that rule.
+
+companies:
+  # ---- Greenhouse ----
+  - name: Anthropic
+    ats: greenhouse
+    active: true
+    category: ai
+    tier_points: 30
+    comp_band: frontier_ai_lab
+    board_token: anthropic
+    verify: false
+
+  - name: Google DeepMind
+    ats: greenhouse
+    active: true
+    category: ai
+    tier_points: 30
+    comp_band: frontier_ai_lab
+    board_token: deepmind
+    verify: true
+    notes: >
+      DeepMind's careers presence has moved around (standalone Greenhouse
+      board vs. folded into careers.google.com). Confirm board_token still
+      resolves; if Google has moved DeepMind roles onto its own site, switch
+      this entry to ats: custom and use playwright_generic against
+      https://www.google.com/about/careers/applications/jobs/results/ with a
+      query filter for DeepMind.
+
+  # ---- Ashby ----
+  - name: OpenAI
+    ats: ashby
+    active: true
+    category: ai
+    tier_points: 30
+    comp_band: frontier_ai_lab
+    board_name: openai
+    verify: true
+
+  - name: Cerebras
+    ats: ashby
+    active: true
+    category: ai
+    tier_points: 18
+    comp_band: neocloud
+    board_name: cerebras
+    verify: true
+
+  - name: Anysphere
+    ats: ashby
+    active: true
+    category: ai
+    tier_points: 14
+    comp_band: chip_and_ai_app
+    board_name: anysphere
+    verify: true
+    notes: "Anysphere = Cursor. Confirm they're actually on Ashby vs. Greenhouse."
+
+  - name: Sierra
+    ats: ashby
+    active: true
+    category: ai
+    tier_points: 14
+    comp_band: chip_and_ai_app
+    board_name: sierra
+    verify: true
+
+  # ---- Workday ----
+  # Workday tenants are split across regional data-center subdomains
+  # (wd1, wd3, wd5, ...). `dc` below is a placeholder guess -- open the
+  # company's careers page, check the network tab for a request to
+  # `<tenant>.<dc>.myworkdayjobs.com`, and correct it.
+  - name: NVIDIA
+    ats: workday
+    active: true
+    category: hardware
+    tier_points: 30
+    comp_band: frontier_ai_lab
+    tenant: nvidia
+    dc: wd5
+    site: NVIDIAExternalCareerSite
+    verify: true
+
+  - name: Oracle
+    ats: workday
+    active: true
+    category: hardware
+    tier_points: 14
+    comp_band: chip_and_ai_app
+    tenant: oracle
+    dc: wd3
+    site: external_careers
+    verify: true
+    notes: "Filter to OCI / cloud infrastructure roles -- Oracle posts far beyond OCI."
+
+  - name: Broadcom
+    ats: workday
+    active: true
+    category: hardware
+    tier_points: 14
+    comp_band: chip_and_ai_app
+    tenant: broadcom
+    dc: wd1
+    site: External_Career
+    verify: true
+
+  - name: Marvell
+    ats: workday
+    active: true
+    category: hardware
+    tier_points: 14
+    comp_band: chip_and_ai_app
+    tenant: marvell
+    dc: wd5
+    site: Marvell_Careers
+    verify: true
+
+  # ---- Gem ----
+  # Gem is primarily an internal sourcing/CRM tool, not a hosted public job
+  # board API like Greenhouse/Ashby -- there's no stable public JSON endpoint
+  # to rely on the way the other ATSes have. Treated as a custom
+  # Playwright scrape of Groq's own careers page until proven otherwise.
+  - name: Groq
+    ats: custom
+    active: true
+    category: ai
+    tier_points: 18
+    comp_band: neocloud
+    verify: true
+    scrape_config:
+      url: "https://groq.com/careers/"
+      wait_for_selector: "a[href*='job']"
+      job_list_selector: "a[href*='job']"
+      title_selector: null
+      location_selector: null
+      link_attr: "href"
+      detail_page: true
+      description_selector: "body"
+    notes: "Confirm whether Groq's board is actually Gem-hosted; adjust selectors after inspecting the live DOM."
+
+  # ---- Custom / JS-rendered career pages (Playwright) ----
+  - name: CoreWeave
+    ats: custom
+    active: true
+    category: hardware
+    tier_points: 18
+    comp_band: neocloud
+    verify: true
+    scrape_config:
+      url: "https://careers.coreweave.com/jobs"
+      wait_for_selector: "a[href*='/jobs/']"
+      job_list_selector: "a[href*='/jobs/']"
+      link_attr: "href"
+      detail_page: true
+      description_selector: "body"
+
+  - name: Lambda
+    ats: custom
+    active: true
+    category: hardware
+    tier_points: 18
+    comp_band: neocloud
+    verify: true
+    scrape_config:
+      url: "https://lambdalabs.com/careers"
+      wait_for_selector: "a[href*='greenhouse'], a[href*='job']"
+      job_list_selector: "a[href*='greenhouse'], a[href*='job']"
+      link_attr: "href"
+      detail_page: true
+      description_selector: "body"
+    notes: "Lambda has previously used a Greenhouse board embedded in this page -- if so, switch ats to greenhouse and drop the custom scrape."
+
+  - name: Nebius
+    ats: custom
+    active: true
+    category: hardware
+    tier_points: 18
+    comp_band: neocloud
+    verify: true
+    scrape_config:
+      url: "https://nebius.com/careers"
+      wait_for_selector: "a[href*='job']"
+      job_list_selector: "a[href*='job']"
+      link_attr: "href"
+      detail_page: true
+      description_selector: "body"
+
+  - name: Crusoe
+    ats: custom
+    active: true
+    category: hardware
+    tier_points: 18
+    comp_band: neocloud
+    verify: true
+    scrape_config:
+      url: "https://crusoe.ai/careers/"
+      wait_for_selector: "a[href*='job']"
+      job_list_selector: "a[href*='job']"
+      link_attr: "href"
+      detail_page: true
+      description_selector: "body"
+
+  - name: Meta
+    ats: custom
+    active: true
+    category: hardware
+    tier_points: 22
+    comp_band: tier2_ai_infra
+    verify: true
+    scrape_config:
+      url: "https://www.metacareers.com/jobs"
+      wait_for_selector: "[data-testid='search-result']"
+      job_list_selector: "[data-testid='search-result']"
+      title_selector: "[data-testid='job-title-link']"
+      link_attr: "href"
+      detail_page: true
+      description_selector: "body"
+    notes: "Filter for Infra/MTIA/silicon roles -- Meta posts across the whole company on this board."
+
+  - name: Apple
+    ats: custom
+    active: true
+    category: hardware
+    tier_points: 22
+    comp_band: tier2_ai_infra
+    verify: true
+    scrape_config:
+      url: "https://jobs.apple.com/en-us/search?team=hardware-technologies-SFTWR-HRDWR"
+      wait_for_selector: "a.table--advanced-search__title"
+      job_list_selector: "a.table--advanced-search__title"
+      link_attr: "href"
+      detail_page: true
+      description_selector: "body"
+    notes: "Scope to Apple Silicon / hardware technologies teams, not all of Apple."
+
+  - name: Astera Labs
+    ats: custom
+    active: true
+    category: hardware
+    tier_points: 14
+    comp_band: chip_and_ai_app
+    verify: true
+    scrape_config:
+      url: "https://www.asteralabs.com/careers/"
+      wait_for_selector: "a[href*='job']"
+      job_list_selector: "a[href*='job']"
+      link_attr: "href"
+      detail_page: true
+      description_selector: "body"
+
+  - name: xAI
+    ats: custom
+    active: true
+    category: ai
+    tier_points: 14
+    comp_band: chip_and_ai_app
+    verify: true
+    flag: xai_culture_note
+    scrape_config:
+      url: "https://x.ai/careers"
+      wait_for_selector: "a[href*='job']"
+      job_list_selector: "a[href*='job']"
+      link_attr: "href"
+      detail_page: true
+      description_selector: "body"
+    notes: "Flagged in every report -- interested but wary of the hours culture. Score is never the deciding factor here."
+
+  - name: SambaNova
+    ats: custom
+    active: true
+    category: ai
+    tier_points: 10
+    comp_band: emerging_ai_infra
+    verify: true
+    scrape_config:
+      url: "https://sambanova.ai/careers"
+      wait_for_selector: "a[href*='job']"
+      job_list_selector: "a[href*='job']"
+      link_attr: "href"
+      detail_page: true
+      description_selector: "body"
+
+  # ---- Special-cased ----
+  - name: Amazon
+    ats: custom
+    active: true
+    category: hardware
+    tier_points: 0
+    comp_band: default
+    verify: true
+    special_rule: ai_pivot_required
+    scrape_config:
+      url: "https://www.amazon.jobs/en/search?base_query=technical+program+manager&loc_query=Seattle%2C+WA"
+      wait_for_selector: "a.job-link"
+      job_list_selector: "a.job-link"
+      link_attr: "href"
+      detail_page: true
+      description_selector: "body"
+    notes: >
+      Scored 0 and dropped by default. special_rule: ai_pivot_required tells
+      filters.py to only keep a match if the posting reads as a genuine AI
+      training/inference pivot (not a lateral hardware-qualification role,
+      e.g. Annapurna Labs silicon PM work).
+
+# Not monitored, but referenced in the scoring rubric (config/scoring.yaml)
+# for when/if you add them: Together AI, Fireworks, Baseten, Voltage Park,
+# Nscale, Fluidstack, Modal (all tier_points: 10, comp_band: emerging_ai_infra).

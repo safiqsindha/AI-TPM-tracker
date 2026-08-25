@@ -1,0 +1,53 @@
+# 100-point scoring rubric. tier_points per company live in companies.yaml
+# (that IS the 30-pt "company tier" score, straight from config -- no lookup
+# needed here). Everything else is defined below.
+
+comp_points:
+  # Scored on estimated TOTAL comp (not base). Bands are [min_inclusive, points].
+  - {min: 600000, points: 40}
+  - {min: 450000, points: 33}
+  - {min: 350000, points: 26}
+  - {min: 275000, points: 19}
+  - {min: 200000, points: 12}
+  - {min: 0,      points: 5}
+
+role_fit:
+  max_points: 20
+  # Each keyword hit adds weight/total_weight * max_points, capped at max_points.
+  positive_keywords:
+    - {kw: "compute infrastructure", weight: 3}
+    - {kw: "cloud infrastructure", weight: 3}
+    - {kw: "data center capacity", weight: 3}
+    - {kw: "datacenter capacity", weight: 3}
+    - {kw: "capacity planning", weight: 2}
+    - {kw: "data center buildout", weight: 3}
+    - {kw: "silicon program", weight: 3}
+    - {kw: "accelerator program", weight: 3}
+    - {kw: "hardware qualification", weight: 2}
+    - {kw: "storage", weight: 1}
+    - {kw: "network", weight: 1}
+    - {kw: "supply chain", weight: 2}
+    - {kw: "gpu fleet", weight: 3}
+    - {kw: "gpu cluster", weight: 2}
+    - {kw: "fleet operations", weight: 2}
+    - {kw: "vendor management", weight: 2}
+    - {kw: "odm", weight: 2}
+    - {kw: "bring-up", weight: 2}
+    - {kw: "bring up", weight: 2}
+    - {kw: "qualification", weight: 1}
+  negative_keywords:
+    # Pure product-launch / GTM program work scores lower -- these subtract.
+    - {kw: "go-to-market", weight: 2}
+    - {kw: "product launch", weight: 2}
+    - {kw: "marketing launch", weight: 2}
+    - {kw: "gtm strategy", weight: 2}
+
+pivot_value:
+  max_points: 10
+  # category comes from companies.yaml (ai | hardware); ai_infra_at_hardware_co
+  # is detected when category == hardware but the description reads as
+  # AI-training/inference infra work (reuses the role_fit positive keyword
+  # hits as a proxy signal).
+  ai_lab_or_platform: 10
+  ai_infra_at_hardware_co: 6
+  hardware_qualification: 2

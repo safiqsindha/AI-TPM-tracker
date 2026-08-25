@@ -1,0 +1,39 @@
+name: TPM Job Tracker
+
+on:
+  schedule:
+    # 15:00 UTC ~= 8:00am PDT / 7:00am PST. GitHub Actions cron is fixed UTC
+    # and doesn't shift for daylight saving, so the actual local time drifts
+    # by an hour across the DST boundary -- see README "Cadence" for details.
+    - cron: "0 15 * * 1,4"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  run-tracker:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Install Playwright's Chromium
+        run: playwright install --with-deps chromium
+
+      - name: Run tracker
+        run: python -m jobtracker.cli run
+
+      - name: Commit report and DB
+        run: |
+          git config user.name "tpm-tracker-bot"
+          git config user.email "actions@github.com"
+          git add reports/ data/jobs.db
+          git diff --cached --quiet || git commit -m "chore: scheduled tracker run $(date -u +%F)"
+          git push

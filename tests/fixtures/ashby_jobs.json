@@ -1,0 +1,32 @@
+{
+  "organizationName": "OpenAI",
+  "jobs": [
+    {
+      "id": "abc123",
+      "title": "Staff Technical Program Manager, Infrastructure",
+      "team": "Infrastructure",
+      "location": "Remote - US",
+      "isRemote": true,
+      "descriptionHtml": "<p>Own our GPU cluster fleet operations and vendor management for accelerator programs. Requires 10+ years.</p>",
+      "publishedAt": "2026-07-15T00:00:00Z",
+      "jobUrl": "https://jobs.ashbyhq.com/openai/abc123",
+      "compensation": {
+        "compensationTierSummary": "$300K - $400K",
+        "summaryComponents": [
+          {"compensationType": "Salary", "minValue": 300000, "maxValue": 400000, "currencyCode": "USD"}
+        ]
+      }
+    },
+    {
+      "id": "def456",
+      "title": "Recruiter, Technical Programs",
+      "team": "People",
+      "location": "San Francisco, CA",
+      "isRemote": false,
+      "descriptionHtml": "<p>Own recruiting pipelines for our technical program manager org.</p>",
+      "publishedAt": "2026-07-10T00:00:00Z",
+      "jobUrl": "https://jobs.ashbyhq.com/openai/def456",
+      "compensation": {}
+    }
+  ]
+}
