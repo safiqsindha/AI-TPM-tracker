@@ -1,9 +1,35 @@
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="assets/banner-dark.svg">
+    <img src="assets/banner-light.svg" alt="TPM Role Tracker" width="100%">
+  </picture>
+</p>
+
 # TPM Role Tracker
 
-Scrapes career pages across a fixed list of AI/hardware companies, filters
-for roles worth taking, scores them against a 100-point rubric, and writes a
-ranked markdown shortlist to `reports/`. Runs on demand or on a Mon/Thu
-schedule via GitHub Actions.
+**A twice-weekly, self-hosted job board for exactly one candidate.**
+
+Scrapes career pages across a fixed list of AI and hardware companies, filters for roles worth taking, scores them against a 100-point rubric, and writes a ranked markdown shortlist to `reports/`. Runs on demand or on a Monday/Thursday schedule via GitHub Actions.
+
+- **Configuration, not code** — adding or dropping a company is one YAML entry; filters, rubric weights, and comp bands are all config files
+- **Diffing that survives ephemeral runners** — the SQLite database is committed, so new / closed / comp-changed detection works across scheduled runs
+- **Scored on estimated total comp** — disclosed numbers are almost always base, so they are scaled per company tier rather than compared naively
+- **Every score carries a rationale** — including a warning when a high score is comp- or prestige-driven but the underlying role fit is weak
+
+![Python](https://img.shields.io/badge/python-3.10%2B-0891b2?style=flat-square)
+![Schedule](https://img.shields.io/badge/schedule-Mon%20%2B%20Thu-0891b2?style=flat-square)
+![Rubric](https://img.shields.io/badge/rubric-100%20points-0891b2?style=flat-square)
+![Scrapers](https://img.shields.io/badge/scrapers-need%20verification-F59E0B?style=flat-square)
+
+**[How it works](#how-it-works)** · **[Adding a company](#adding-or-dropping-a-company)** · **[Comp estimation](#comp-estimation)** · **[Scoring](#filters-scoring-and-the-report)** · **[Cadence](#cadence)**
+
+```bash
+pip install -r requirements.txt
+playwright install chromium                  # once, for the JS-rendered scrapers
+python -m jobtracker.cli run                 # scrape everything active, then report
+```
+
+> **Read the verification section before the first real run.** This was built in a sandbox with no outbound network access, so no scraper has been run against a live endpoint. Board slugs and CSS selectors are educated guesses until checked by hand.
 
 ## How it works
 
