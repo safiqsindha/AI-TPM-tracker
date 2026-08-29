@@ -30,7 +30,6 @@ python -m jobtracker.cli run                 # scrape everything active, then re
 ```
 
 > **Read the verification section before the first real run.** This was built in a sandbox with no outbound network access, so no scraper has been run against a live endpoint. Board slugs and CSS selectors are educated guesses until checked by hand.
-
 ## How it works
 
 ```
